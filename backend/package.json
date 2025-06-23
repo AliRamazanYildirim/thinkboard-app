@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "module": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "bun server.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

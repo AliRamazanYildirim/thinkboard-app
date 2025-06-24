@@ -3,7 +3,8 @@
   "module": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "bun server.js"
+    "dev": "nodemon server.js",
+    "start": "bun server.js"
   },
   "devDependencies": {
     "@types/bun": "latest"

@@ -176,3 +176,4 @@ dist
 
 # Bun specific files
 bun.lockb
+bun.lock

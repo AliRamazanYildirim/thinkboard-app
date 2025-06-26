@@ -112,13 +112,11 @@ export const updateNote = async (req, res) => {
 
     // Build update object with only provided fields
     const updateData = {};
-    if (title !== undefined) updateData.title = title;
-    if (content !== undefined) updateData.content = content;
-    if (tags !== undefined) updateData.tags = tags;
-    if (color !== undefined) updateData.color = color;
-    if (isPinned !== undefined) updateData.isPinned = isPinned;
-    if (isArchived !== undefined) updateData.isArchived = isArchived;
-    if (priority !== undefined) updateData.priority = priority;
+    Object.assign(updateData, 
+      ...['title', 'content', 'tags', 'color', 'isPinned', 'isArchived', 'priority']
+      .filter(key => req.body[key] !== undefined)
+      .map(key => ({ [key]: req.body[key] }))
+    );
 
     const updatedNote = await Note.findByIdAndUpdate(
       id,

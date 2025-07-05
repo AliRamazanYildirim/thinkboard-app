@@ -15,8 +15,6 @@ const startServer = async () => {
     await connectDB();
     
     //middlewares
-    app.use(express.json());
-    app.use(rateLimiter); // Füge den Ratelimiter Middleware hinzu
     const allowedOrigins = [
       process.env.FRONTEND_URL || "http://localhost:5173",
     ];
@@ -35,6 +33,8 @@ const startServer = async () => {
         optionsSuccessStatus: 200 // Für alte Browser, die 204 nicht unterstützen
       })
     );
+    app.use(express.json());
+    app.use(rateLimiter); // Füge den Ratelimiter Middleware hinzu
 
     app.use('/api/notes', notesRoutes);
     

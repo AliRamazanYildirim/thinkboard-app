@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
 import RateLimitedUi from '../components/RateLimitedUi';
+import NoteCard from '../components/NoteCard';
 
 const HomePage = () => {
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -39,21 +40,22 @@ const HomePage = () => {
       {isRateLimited && <RateLimitedUi />}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {loading && (
-          <div className="text-gray-500 text-center">Loading notes...</div>
+          <div className="text-gray-300 text-center">Loading notes...</div>
         )}
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {notes.map((note) => (
-              <div
-                key={note._id}
+              <NoteCard
+              key={note._id}
+                note={note}
                 className="bg-orange-500 p-4 rounded-lg shadow-md"
               >
                 <h2 className="text-xl font-bold mb-2">{note.title}</h2>
                 <p className="text-gray-700">{note.content}</p>
-              </div>
+              </NoteCard>
             ))}
             {notes.length === 0 && !loading && !isRateLimited && (
-              <div className="text-gray-500 text-center">
+              <div className="text-gray-100 text-center">
                 No notes available.
               </div>
             )}

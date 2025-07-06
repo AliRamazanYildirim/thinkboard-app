@@ -48,7 +48,7 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
       style={{ borderTopColor: note.color || "#fb923c" }}
     >
       {/* Pin und Archive Buttons - Links oben */}
-      <div className="absolute left-2 flex gap-1" style={{ top: "-1px" }}>
+      <div className="absolute top-[-1px] left-2 flex gap-1">
         <button
           onClick={handlePin}
           className={`btn btn-xs btn-square btn-ghost ${
@@ -131,7 +131,7 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
             </span>
             <div className="flex items-center gap-2">
               <span
-                className={`badge badge-sm ${getPriorityBadge(note.priority)}`}
+                className={`badge badge-sm text-black ${getPriorityBadge(note.priority)}`}
               >
                 {note.priority}
               </span>

@@ -34,6 +34,67 @@ const HomePage = () => {
     fetchNotes();
   }, []);
 
+  // Pin/Unpin Handler
+  const handlePin = async (noteId) => {
+    try {
+      const response = await axios.patch(`http://localhost:5001/api/notes/${noteId}/pin`);
+      
+      // Notes State aktualisieren
+      setNotes(prevNotes => 
+        prevNotes.map(note => 
+          note._id === noteId 
+            ? { ...note, isPinned: response.data.isPinned }
+            : note
+        )
+      );
+      
+      toast.success(response.data.isPinned ? 'Notiz angepinnt!' : 'Notiz entpinnt!');
+    } catch (error) {
+      console.error('Error toggling pin:', error);
+      toast.error('Fehler beim Pinnen der Notiz!');
+    }
+  };
+
+  // Archive/Unarchive Handler
+  const handleArchive = async (noteId) => {
+    try {
+      const response = await axios.patch(`http://localhost:5001/api/notes/${noteId}/archive`);
+      
+      // Notes State aktualisieren
+      setNotes(prevNotes => 
+        prevNotes.map(note => 
+          note._id === noteId 
+            ? { ...note, isArchived: response.data.isArchived }
+            : note
+        )
+      );
+      
+      toast.success(response.data.isArchived ? 'Notiz archiviert!' : 'Notiz aus Archiv geholt!');
+    } catch (error) {
+      console.error('Error toggling archive:', error);
+      toast.error('Fehler beim Archivieren der Notiz!');
+    }
+  };
+
+  // Delete Handler
+  const handleDelete = async (noteId) => {
+    if (!window.confirm('Sind Sie sicher, dass Sie diese Notiz löschen möchten?')) {
+      return;
+    }
+
+    try {
+      await axios.delete(`http://localhost:5001/api/notes/${noteId}`);
+      
+      // Notes State aktualisieren
+      setNotes(prevNotes => prevNotes.filter(note => note._id !== noteId));
+      
+      toast.success('Notiz erfolgreich gelöscht!');
+    } catch (error) {
+      console.error('Error deleting note:', error);
+      toast.error('Fehler beim Löschen der Notiz!');
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <NavBar />
@@ -46,19 +107,18 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {notes.map((note) => (
               <NoteCard
-              key={note._id}
+                key={note._id}
                 note={note}
-                className="bg-orange-500 p-4 rounded-lg shadow-md"
-              >
-                <h2 className="text-xl font-bold mb-2">{note.title}</h2>
-                <p className="text-gray-700">{note.content}</p>
-              </NoteCard>
+                onPin={handlePin}
+                onArchive={handleArchive}
+                onDelete={handleDelete}
+              />
             ))}
-            {notes.length === 0 && !loading && !isRateLimited && (
-              <div className="text-gray-100 text-center">
-                No notes available.
-              </div>
-            )}
+          </div>
+        )}
+        {notes.length === 0 && !loading && !isRateLimited && (
+          <div className="text-gray-100 text-center">
+            No notes available.
           </div>
         )}
       </div>

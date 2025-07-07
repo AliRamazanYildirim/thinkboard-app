@@ -1,9 +1,9 @@
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
 import RateLimitedUi from '../components/RateLimitedUi';
 import NoteCard from '../components/NoteCard';
+import apiClient from '../lib/axios';
 
 const HomePage = () => {
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -14,7 +14,7 @@ const HomePage = () => {
     const fetchNotes = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5001/api/notes");
+        const response = await apiClient.get("/notes");
         console.log('Fetched notes:', response.data);
         
         setNotes(response.data);
@@ -37,7 +37,7 @@ const HomePage = () => {
   // Pin/Unpin Handler
   const handlePin = async (noteId) => {
     try {
-      const response = await axios.patch(`http://localhost:5001/api/notes/${noteId}/pin`);
+      const response = await apiClient.patch(`/notes/${noteId}/pin`);
       
       // Notes State aktualisieren
       setNotes(prevNotes => 
@@ -58,7 +58,7 @@ const HomePage = () => {
   // Archive/Unarchive Handler
   const handleArchive = async (noteId) => {
     try {
-      const response = await axios.patch(`http://localhost:5001/api/notes/${noteId}/archive`);
+      const response = await apiClient.patch(`/notes/${noteId}/archive`);
       
       // Notes State aktualisieren
       setNotes(prevNotes => 
@@ -83,7 +83,7 @@ const HomePage = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5001/api/notes/${noteId}`);
+      await apiClient.delete(`/notes/${noteId}`);
       
       // Notes State aktualisieren
       setNotes(prevNotes => prevNotes.filter(note => note._id !== noteId));

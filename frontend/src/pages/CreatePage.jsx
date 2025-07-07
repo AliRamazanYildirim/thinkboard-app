@@ -21,7 +21,7 @@ const CreatePage = () => {
     { name: "Grün", value: "#c8e6c9" },
     { name: "Gelb", value: "#fff59d" },
     { name: "Rosa", value: "#f8bbd9" },
-    { name: "Orange", value: "#ffcc80" }
+    { name: "Orange", value: "#fb923c" }
   ];
 
   const handleSubmit = async (e) => {

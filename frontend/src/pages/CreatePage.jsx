@@ -57,7 +57,12 @@ const CreatePage = () => {
       setColor("#ffffff");
     } catch (error) {
       console.error("Error creating note:", error);
-      toast.error("Failed to create note!");
+      error.response && error.response.status === 429
+        ? toast.error("Zu viele Anfragen! Bitte warte einen Moment.", {
+        duration: 5000,
+        icon: "🚫",
+          })
+        : toast.error("Failed to create note!");
     } finally {
       setLoading(false);
     }

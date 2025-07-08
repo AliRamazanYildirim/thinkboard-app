@@ -81,7 +81,7 @@ const CreatePage = () => {
             { /* Card header with title */}
             <div className="card-body">
               <h2 className="card-title">Create a New Note</h2>
-              <form onSubmit={handleSubmit} className="space-y-4 relative pb-2">
+              <form onSubmit={handleSubmit} className="space-y-4 relative pb-2" noValidate>
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Title</span>

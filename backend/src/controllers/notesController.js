@@ -3,7 +3,7 @@ import Note from "../models/Note.js";
 export const getAllNotes = async (_, res) => {
     try {
       const notes = await Note.find()
-        .sort({ createdAt: -1 }) // -1 will sort by createdAt in descending order (newest first)
+        .sort({ createdAt: -1, isPinned:-1 }) // Sort by creation date (newest first) and pinned status (pinned notes first)
         res.status(200).json(notes);
         console.log('Fetched all notes successfully.');
     } catch (error) {
@@ -148,3 +148,53 @@ export const deleteNote = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+// Anheften/Abheften-Funktionalität
+export const togglePin = async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    const note = await Note.findById(id);
+    if (!note) {
+      return res.status(404).json({ message: 'Note not found.' });
+    }
+    
+    // Toggle pin status
+    note.isPinned = !note.isPinned;
+    const updatedNote = await note.save();
+    
+    res.status(200).json({ 
+      message: note.isPinned ? 'Note pinned successfully.' : 'Note unpinned successfully.',
+      isPinned: updatedNote.isPinned,
+      note: updatedNote
+    });
+  } catch (error) {
+    console.error('Error toggling pin:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Archivierungs-/Wiederherstellungsfunktionalität
+export const toggleArchive = async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    const note = await Note.findById(id);
+    if (!note) {
+      return res.status(404).json({ message: 'Note not found.' });
+    }
+    
+    // Toggle archive status
+    note.isArchived = !note.isArchived;
+    const updatedNote = await note.save();
+    
+    res.status(200).json({ 
+      message: note.isArchived ? 'Note archived successfully.' : 'Note unarchived successfully.',
+      isArchived: updatedNote.isArchived,
+      note: updatedNote
+    });
+  } catch (error) {
+    console.error('Error toggling archive:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

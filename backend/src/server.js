@@ -28,11 +28,13 @@ const startServer = async () => {
             callback(new Error("Nicht erlaubte Origin"));
           }
         },
-        methods: ["GET", "POST", "PUT", "DELETE"],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], 
+        allowedHeaders: ["Content-Type", "Authorization"], 
         credentials: true,
         optionsSuccessStatus: 200 // Für alte Browser, die 204 nicht unterstützen
       })
     );
+    
     app.use(express.json());
     app.use(rateLimiter); // Füge den Ratelimiter Middleware hinzu
 

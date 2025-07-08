@@ -56,7 +56,7 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
               ? "text-white hover:btn-warning"
               : "hover:bg-warning hover:text-black"
           }`}
-          title={note.isPinned ? "Entpinnen" : "Anpinnen"}
+          title={note.isPinned ? "Unpin" : "Pin on"}
         >
           {note.isPinned ? <Pin size={16} /> : <PinOff size={16} />}
         </button>
@@ -67,7 +67,7 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
               ? "text-info hover:btn-info hover:text-black"
               : "hover:btn-info hover:text-white"
           }`}
-          title={note.isArchived ? "Aus Archiv holen" : "Archivieren"}
+          title={note.isArchived ? "Retrieve from archive" : "Archive"}
         >
           {note.isArchived ? (
             <ArchiveRestore size={16} />
@@ -82,14 +82,14 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
         <Link
           to={`/note/${note._id}`}
           className="btn btn-xs btn-square btn-ghost hover:btn-info"
-          title="Bearbeiten"
+          title="Edit"
         >
           <PenSquareIcon size={16} />
         </Link>
         <button
           onClick={handleDelete}
           className="btn btn-xs btn-square btn-ghost hover:btn-error"
-          title="Löschen"
+          title="Delete"
         >
           <Trash2Icon size={16} />
         </button>

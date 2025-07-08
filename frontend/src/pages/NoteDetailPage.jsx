@@ -21,11 +21,11 @@ const NoteDetailPage = () => {
   const { id } = useParams();
 
   const colorPalette = [
-    { name: "Hellgelb", value: "#fff9c4" },
-    { name: "Blau", value: "#bbdefb" },
-    { name: "Grün", value: "#c8e6c9" },
-    { name: "Gelb", value: "#fff59d" },
-    { name: "Rosa", value: "#f8bbd9" },
+    { name: "Light Yellow", value: "#fff9c4" },
+    { name: "Blue", value: "#bbdefb" },
+    { name: "Green", value: "#c8e6c9" },
+    { name: "Yellow", value: "#fff59d" },
+    { name: "Pink", value: "#f8bbd9" },
     { name: "Orange", value: "#fb923c" },
   ];
 
@@ -56,7 +56,7 @@ const NoteDetailPage = () => {
     e.preventDefault();
 
     if (!title.trim() || !content.trim()) {
-      toast.error("Titel und Inhalt dürfen nicht leer sein!");
+      toast.error("Title and content must not be empty!");
       return;
     }
 
@@ -77,10 +77,10 @@ const NoteDetailPage = () => {
 
       // Formzustände sind bereits aktuell, schließe einfach den Bearbeitungsmodus
       setIsEditing(false);
-      toast.success("Notiz erfolgreich aktualisiert!");
+      toast.success("Note successfully updated!");
     } catch (error) {
       console.error("Error updating note:", error);
-      toast.error("Fehler beim Aktualisieren der Notiz!");
+      toast.error("Error updating the note!");
     } finally {
       setSaving(false);
     }
@@ -128,7 +128,7 @@ const NoteDetailPage = () => {
                 <button
                   onClick={() => setIsEditing(true)}
                   className="btn btn-sm btn-square btn-ghost hover:btn-success"
-                  title="Bearbeiten"
+                  title="Edit"
                 >
                   <PenSquareIcon size={16} />
                 </button>
@@ -136,7 +136,7 @@ const NoteDetailPage = () => {
                 <button
                   onClick={() => setIsEditing(false)}
                   className="btn btn-sm btn-square btn-ghost hover:btn-warning"
-                  title="Abbrechen"
+                  title="Cancel"
                 >
                   <XIcon size={16} />
                 </button>
@@ -145,7 +145,7 @@ const NoteDetailPage = () => {
                 onClick={handleDelete}
                 className="btn btn-sm btn-square btn-ghost hover:btn-error"
                 disabled={saving}
-                title="Löschen"
+                title="Delete"
               >
                 <Trash2Icon size={16} />
               </button>
@@ -184,7 +184,7 @@ const NoteDetailPage = () => {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-300">
-                    Tags (Komma-getrennt)
+                    Tags (Comma separated)
                   </label>
                   <input
                     type="text"
@@ -213,7 +213,7 @@ const NoteDetailPage = () => {
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-300">
-                      Notiz Farbe
+                      Note Color
                     </label>
                     <div className="grid grid-cols-6 gap-2 p-2 bg-green-900  rounded-full">
                       {colorPalette.map((colorOption) => (
@@ -233,7 +233,7 @@ const NoteDetailPage = () => {
                     </div>
                     <div className="mt-2 flex items-center gap-2">
                       <span className="text-sm text-gray-400">
-                        Spezielle Farbe:
+                         Special color:
                       </span>
                       <input
                         type="color"

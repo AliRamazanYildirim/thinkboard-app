@@ -29,7 +29,7 @@ const CreatePage = () => {
     
     // Leerzeichenkontrolle
     if (!title.trim() || !content.trim()) {
-      toast.error("Titel und Inhalt dürfen nicht leer sein!");
+      toast.error("Title and content must not be empty!");
       return;
     }
 
@@ -58,7 +58,7 @@ const CreatePage = () => {
     } catch (error) {
       console.error("Error creating note:", error);
       error.response && error.response.status === 429
-        ? toast.error("Zu viele Anfragen! Bitte warte einen Moment.", {
+        ? toast.error("Too many requests! Please wait a moment.", {
         duration: 5000,
         icon: "🚫",
           })

@@ -49,10 +49,10 @@ const HomePage = () => {
         )
       );
       
-      toast.success(response.data.isPinned ? 'Notiz angepinnt!' : 'Notiz entpinnt!');
+      toast.success(response.data.isPinned ? 'Note pinned!' : 'Note unpinned!');
     } catch (error) {
       console.error('Error toggling pin:', error);
-      toast.error('Fehler beim Pinnen der Notiz!');
+      toast.error('Error pinning the note!');
     }
   };
 
@@ -70,16 +70,16 @@ const HomePage = () => {
         )
       );
       
-      toast.success(response.data.isArchived ? 'Notiz archiviert!' : 'Notiz aus Archiv geholt!');
+      toast.success(response.data.isArchived ? 'Note archived!' : 'Note retrieved from archive!');
     } catch (error) {
       console.error('Error toggling archive:', error);
-      toast.error('Fehler beim Archivieren der Notiz!');
+      toast.error('Error while archiving the note!');
     }
   };
 
   // Delete Handler
   const handleDelete = async (noteId) => {
-    if (!window.confirm('Sind Sie sicher, dass Sie diese Notiz löschen möchten?')) {
+    if (!window.confirm('Are you sure you want to delete this note?')) {
       return;
     }
 
@@ -89,10 +89,10 @@ const HomePage = () => {
       // Notes State aktualisieren
       setNotes(prevNotes => prevNotes.filter(note => note._id !== noteId));
       
-      toast.success('Notiz erfolgreich gelöscht!');
+      toast.success('Note successfully deleted!');
     } catch (error) {
       console.error('Error deleting note:', error);
-      toast.error('Fehler beim Löschen der Notiz!');
+      toast.error('Error deleting the note!');
     }
   };
 

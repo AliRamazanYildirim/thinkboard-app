@@ -2,7 +2,7 @@ import { useState } from "react";
 import {ArrowLeftIcon} from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import axios from "axios";
+import apiClient from "../lib/axios";
 
 
 const CreatePage = () => {
@@ -40,7 +40,7 @@ const CreatePage = () => {
       .map(tag => tag.trim())
       .filter(tag => tag.length > 0);
       
-      const response = await axios.post("http://localhost:5001/api/notes", { 
+      const response = await apiClient.post("/notes", { 
         title: title.trim(), 
         content: content.trim(),
         tags: tagsArray,
@@ -69,7 +69,7 @@ const CreatePage = () => {
   };
   
   return (
-    <div className="min-h-screen bg-[radial-gradient(125%_125%_at_50%_10%,#000_60%,#00FF9D40_100%)]">
+    <div className="min-h-screen bg-gradient-to-br from-green-900 to-black">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <Link to={"/"} className="btn btn-ghost mb-6">
@@ -77,7 +77,7 @@ const CreatePage = () => {
             Back to Notes
           </Link>
           { /* Card for creating a new note */}
-          <div className="card bg-[radial-gradient(145%_125%_at_50%_12%,#000_0%,#0891b250_55%,#000_100%)] shadow-lg">
+          <div className="card bg-gradient-to-br from-green-900 to-black shadow-lg">
             { /* Card header with title */}
             <div className="card-body">
               <h2 className="card-title">Create a New Note</h2>
@@ -90,7 +90,7 @@ const CreatePage = () => {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="input input-bordered w-full rounded-full"
+                    className="input input-bordered w-full rounded-full bg-green-900"
                     required
                   />
                 </div>
@@ -102,7 +102,7 @@ const CreatePage = () => {
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="textarea textarea-bordered w-full rounded-2xl"
+                    className="textarea textarea-bordered w-full rounded-2xl bg-green-900"
                     rows={6}
                     required
                   />
@@ -116,7 +116,7 @@ const CreatePage = () => {
                     type="text"
                     value={tags}
                     onChange={(e) => setTags(e.target.value)}
-                    className="input input-bordered w-full rounded-full"
+                    className="input input-bordered w-full rounded-full bg-green-900"
                     placeholder="z.B. #arbeit, #wichtig, #projekt"
                   />
                 </div>
@@ -129,7 +129,7 @@ const CreatePage = () => {
                     <select
                       value={priority}
                       onChange={(e) => setPriority(e.target.value)}
-                      className="select select-bordered w-full rounded-2xl"
+                      className="select select-bordered w-full rounded-2xl bg-green-900"
                     >
                       <option value="low">low</option>
                       <option value="medium">medium</option>
@@ -140,7 +140,7 @@ const CreatePage = () => {
                     <label className="label">
                       <span className="label-text">Notiz Farbe</span>
                     </label>
-                    <div className="grid grid-cols-6 gap-2 p-1 bg-base-200 rounded-full">
+                    <div className="grid grid-cols-6 gap-2 p-1 bg-green-900 rounded-full">
                       {colorPalette.map((colorOption) => (
                         <button
                           key={colorOption.value}
@@ -170,7 +170,7 @@ const CreatePage = () => {
                 <div className="flex justify-end">
                   <button 
                     type="submit" 
-                    className={`btn btn-success text-black ${loading ? "loading" : ""}`}
+                    className={`btn btn-success rounded-full text-black ${loading ? "loading" : ""}`}
                     disabled={loading}
                   >
                     {loading ? "Creating..." : "Create Note"}

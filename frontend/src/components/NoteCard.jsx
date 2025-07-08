@@ -42,8 +42,8 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
 
   return (
     <div
-      className="relative card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-100
-    border-t-4 border-solid border-orange border-2 border-base-300
+      className="relative card bg-gradient-to-br from-green-900 to-black backdrop-blur-sm  border-slate-700 rounded-2xl shadow-xl p-6  hover:shadow-xl transition-all duration-100
+    border-t-4 border-solid border-orange border-2
     hover:border-orange hover:border-opacity-80 hover:scale-105"
       style={{ borderTopColor: note.color || "#fb923c" }}
     >
@@ -80,7 +80,7 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
       {/* Bearbeitungs- und Löschbuttons - Rechts oben */}
       <div className="absolute top-[-1px] right-2 flex gap-1">
         <Link
-          to={`/note/${note._id}/edit`}
+          to={`/note/${note._id}`}
           className="btn btn-xs btn-square btn-ghost hover:btn-info"
           title="Bearbeiten"
         >
@@ -111,7 +111,7 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
               {note.tags.slice(0, 3).map((tag, index) => (
                 <span
                   key={index}
-                  className="border border-orange-400 text-orange-400 rounded px-2 py-0.5 text-xs"
+                  className="px-3 py-1 bg-orange-500/50 text-white rounded-full text-sm"
                 >
                   #{tag}
                 </span>

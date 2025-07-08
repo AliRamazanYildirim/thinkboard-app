@@ -14,7 +14,7 @@ const NavBar = () => {
               ThinkBoard
             </a>
             <div className="flex items-center space-x-2">
-              <Link to={"/create"} className="btn btn-success text-black">
+              <Link to={"/create"} className="btn btn-success text-black rounded-full">
                 <PlusIcon className="size-5" />
                 <span>New Note</span>
               </Link>

@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router';
-import apiClient from '../lib/axios';
-import { toast } from 'react-hot-toast';
-import { ArrowLeftIcon, Trash2Icon, XIcon, PenSquareIcon } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router";
+import apiClient from "../lib/axios";
+import { toast } from "react-hot-toast";
+import { ArrowLeftIcon, Trash2Icon, XIcon, PenSquareIcon } from "lucide-react";
 
 const NoteDetailPage = () => {
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  
+
   // Zustände für die Bearbeitung
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -26,7 +26,7 @@ const NoteDetailPage = () => {
     { name: "Grün", value: "#c8e6c9" },
     { name: "Gelb", value: "#fff59d" },
     { name: "Rosa", value: "#f8bbd9" },
-    { name: "Orange", value: "#fb923c" }
+    { name: "Orange", value: "#fb923c" },
   ];
 
   useEffect(() => {
@@ -34,17 +34,16 @@ const NoteDetailPage = () => {
       try {
         const response = await apiClient.get(`/notes/${id}`);
         setNote(response.data);
-        
+
         // Formularfelder ausfüllen
         setTitle(response.data.title || "");
         setContent(response.data.content || "");
-        setTags(response.data.tags ? response.data.tags.join(', ') : "");
+        setTags(response.data.tags ? response.data.tags.join(", ") : "");
         setPriority(response.data.priority || "medium");
         setColor(response.data.color || "#fb923c");
-        
       } catch (error) {
-        toast.error('Failed to fetch note');
-        console.error('Error fetching note:', error);
+        toast.error("Failed to fetch note");
+        console.error("Error fetching note:", error);
       } finally {
         setLoading(false);
       }
@@ -54,50 +53,51 @@ const NoteDetailPage = () => {
   }, [id]);
 
   const handleSave = async (e) => {
-  e.preventDefault();
-  
-  if (!title.trim() || !content.trim()) {
-    toast.error("Titel und Inhalt dürfen nicht leer sein!");
-    return;
-  }
+    e.preventDefault();
 
-  setSaving(true);
-  try {
-    const tagsArray = tags.split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0);
-    
-    await apiClient.put(`/notes/${id}`, { 
-      title: title.trim(), 
-      content: content.trim(),
-      tags: tagsArray,
-      priority,
-      color
-    });
-    
-   // Formzustände sind bereits aktuell, schließe einfach den Bearbeitungsmodus
-    setIsEditing(false);
-    toast.success("Notiz erfolgreich aktualisiert!");
-  } catch (error) {
-    console.error("Error updating note:", error);
-    toast.error("Fehler beim Aktualisieren der Notiz!");
-  } finally {
-    setSaving(false);
-  }
-};
+    if (!title.trim() || !content.trim()) {
+      toast.error("Titel und Inhalt dürfen nicht leer sein!");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const tagsArray = tags
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0);
+
+      await apiClient.put(`/notes/${id}`, {
+        title: title.trim(),
+        content: content.trim(),
+        tags: tagsArray,
+        priority,
+        color,
+      });
+
+      // Formzustände sind bereits aktuell, schließe einfach den Bearbeitungsmodus
+      setIsEditing(false);
+      toast.success("Notiz erfolgreich aktualisiert!");
+    } catch (error) {
+      console.error("Error updating note:", error);
+      toast.error("Fehler beim Aktualisieren der Notiz!");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleDelete = async () => {
     if (!note) return;
-    if (!window.confirm('Are you sure you want to delete this note?')) return;
-    
+    if (!window.confirm("Are you sure you want to delete this note?")) return;
+
     setSaving(true);
     try {
       await apiClient.delete(`/notes/${id}`);
-      toast.success('Note deleted successfully');
-      navigate('/');
+      toast.success("Note deleted successfully");
+      navigate("/");
     } catch (error) {
-      toast.error('Failed to delete note');
-      console.error('Error deleting note:', error);
+      toast.error("Failed to delete note");
+      console.error("Error deleting note:", error);
     } finally {
       setSaving(false);
     }
@@ -118,7 +118,7 @@ const NoteDetailPage = () => {
           <div className="flex items-center justify-between mb-6">
             <Link
               to="/"
-              className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200"
+              className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200 btn btn-ghost"
             >
               <ArrowLeftIcon className="h-5 w-5" />
               Back to Notes
@@ -248,7 +248,7 @@ const NoteDetailPage = () => {
                 <div className="flex justify-end gap-2">
                   <button
                     type="submit"
-                    className={`px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 ${
+                    className={`px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-full transition-colors duration-200 ${
                       saving ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     disabled={saving}
@@ -259,29 +259,30 @@ const NoteDetailPage = () => {
               </form>
             ) : (
               <div className="space-y-4">
-                <h1 className="text-2xl font-bold text-white">{note?.title}</h1>
+                {/* note yerine form state'lerini kullan */}
+                <h1 className="text-2xl font-bold text-white">{title}</h1>
                 <div className="text-gray-300 whitespace-pre-wrap">
-                  {note?.content}
+                  {content}
                 </div>
-                {note?.tags && note.tags.length > 0 && (
+                {tags && tags.trim() && (
                   <div className="flex flex-wrap gap-2">
-                    {note.tags.map((tag, index) => (
+                    {tags.split(",").map((tag, index) => (
                       <span
                         key={index}
                         className="px-3 py-1 bg-blue-600/20 text-white rounded-full text-sm"
                       >
-                        #{tag}
+                        #{tag.trim()}
                       </span>
                     ))}
                   </div>
                 )}
                 <div className="flex items-center gap-4 text-sm text-gray-400">
-                  <span className="capitalize">Priority: {note?.priority}</span>
+                  <span className="capitalize">Priority: {priority}</span>
                   <div className="flex items-center gap-2">
                     <span>Color:</span>
                     <div
                       className="w-4 h-4 rounded-full border border-gray-400"
-                      style={{ backgroundColor: note?.color }}
+                      style={{ backgroundColor: color }}
                     ></div>
                   </div>
                 </div>
@@ -292,6 +293,6 @@ const NoteDetailPage = () => {
       </div>
     </div>
   );
-}
+};
 
-export default NoteDetailPage
+export default NoteDetailPage;

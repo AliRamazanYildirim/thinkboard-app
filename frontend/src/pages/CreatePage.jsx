@@ -10,7 +10,7 @@ const CreatePage = () => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [priority, setPriority] = useState("medium");
-  const [color, setColor] = useState("#ffffff");
+  const [color, setColor] = useState("#fb923c");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();

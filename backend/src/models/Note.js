@@ -20,7 +20,7 @@ const noteSchema = new Schema({
   }],
   color: {
     type: String,
-    default: '#ffffff',
+    default: '#fb923c',
     match: [/^#[0-9A-F]{6}$/i, 'Ungültiger Farbcode']
   },
   isPinned: {

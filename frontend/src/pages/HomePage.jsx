@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar'
 import RateLimitedUi from '../components/RateLimitedUi';
 import NoteCard from '../components/NoteCard';
 import apiClient from '../lib/axios';
+import NotesNotFound from '../components/NotesNotFound';
 
 const HomePage = () => {
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -19,8 +20,8 @@ const HomePage = () => {
         
         setNotes(response.data);
         
-        // Einfache Logik: Wenn keine Notizen vorhanden sind, Rate-Limit anzeigen
-        setIsRateLimited(response.data.length === 0 ? true : false);
+        // Rate Limit Check
+        setIsRateLimited(false);
         
       } catch (error) {
         console.error('Error fetching notes:', error);
@@ -102,7 +103,8 @@ const HomePage = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {loading && (
           <div className="text-gray-300 text-center">Loading notes...</div>
-        )}
+        )}      
+
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {notes.map((note) => (
@@ -116,11 +118,9 @@ const HomePage = () => {
             ))}
           </div>
         )}
-        {notes.length === 0 && !loading && !isRateLimited && (
-          <div className="text-gray-100 text-center">
-            No notes available.
-          </div>
-        )}
+
+        {notes.length === 0 && !isRateLimited && <NotesNotFound />}
+
       </div>
     </div>
   );

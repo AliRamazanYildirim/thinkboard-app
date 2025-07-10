@@ -2,12 +2,12 @@
   "name": "thinkboard-app",
   "private": true,
   "version": "1.0.0",
-  "description": "Fullstack monorepo: Thinkboard App (Bun, React, Express, MongoDB, Redis)",
-  "scripts": {
-    "install": "cd frontend && bun install && cd ../backend && bun install",
-    "build": "cd frontend && bun run build",
-    "start": "cd backend && bun run start"
-  },
+  "description": "Fullstack monorepo: Thinkboard App (Bun, React, Express, MongoDB, Redis)","scripts": {
+  "preinstall": "cd frontend && bun install && cd ../backend && bun install",
+  "install": "cd frontend && bun install && cd ../backend && bun install",
+  "build": "cd frontend && bun run build",
+  "start": "cd backend && bun run start"
+},
   "engines": {
     "bun": ">=1.0.0"
   },

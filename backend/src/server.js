@@ -30,7 +30,7 @@ const startServer = async () => {
           if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
           } else {
-            callback(new Error("Nicht erlaubte Origin"));
+            callback(null, false);// CORS ablehnen statt Fehler werfen
           }
         },
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
@@ -47,7 +47,7 @@ const startServer = async () => {
 
     if (process.env.NODE_ENV === "production") {
       app.use(express.static(distPath));
-      app.use((req, res) => {
+      app.use((_, res) => {
         res.sendFile(path.join(distPath, "index.html"));
       });
     }

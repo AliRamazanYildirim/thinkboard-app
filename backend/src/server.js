@@ -47,7 +47,7 @@ const startServer = async () => {
 
     if (process.env.NODE_ENV === "production") {
       app.use(express.static(distPath));
-      app.use((_, res) => {
+      app.use((req, res) => {
         res.sendFile(path.join(distPath, "index.html"));
       });
     }

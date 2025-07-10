@@ -30,7 +30,7 @@ const startServer = async () => {
           if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
           } else {
-            callback(new Error("Nicht erlaubte Origin"));
+            callback(null, false);// CORS ablehnen statt Fehler werfen
           }
         },
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],

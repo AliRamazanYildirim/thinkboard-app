@@ -78,8 +78,34 @@ const HomePage = () => {
   };
 
   // Delete Handler
+  // confirm toast helper (Yes / Cancel)
+  const showConfirmToast = (message) => {
+    return new Promise((resolve) => {
+      const id = toast.custom((t) => (
+        <div className={`bg-gray-800 text-white p-4 rounded shadow-lg ${t.visible ? 'animate-enter' : 'animate-leave'}`}>
+          <div className="mb-3">{message}</div>
+          <div className="flex gap-2 justify-end">
+            <button
+              onClick={() => { toast.dismiss(id); resolve(false); }}
+              className="px-3 py-1 rounded bg-gray-600 hover:bg-gray-700"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => { toast.dismiss(id); resolve(true); }}
+              className="px-3 py-1 rounded bg-red-600 hover:bg-red-700"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      ), { duration: Infinity });
+    });
+  };
+
   const handleDelete = async (noteId) => {
-    toast('Are you sure you want to delete this note?');
+    const confirmed = await showConfirmToast('Are you sure you want to delete this note?');
+    if (!confirmed) return;
 
     try {
       await apiClient.delete(`/notes/${noteId}`);

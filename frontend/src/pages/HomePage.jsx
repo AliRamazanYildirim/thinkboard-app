@@ -79,9 +79,7 @@ const HomePage = () => {
 
   // Delete Handler
   const handleDelete = async (noteId) => {
-    if (!window.confirm('Are you sure you want to delete this note?')) {
-      return;
-    }
+    toast('Are you sure you want to delete this note?');
 
     try {
       await apiClient.delete(`/notes/${noteId}`);

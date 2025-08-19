@@ -88,7 +88,7 @@ const NoteDetailPage = () => {
 
   const handleDelete = async () => {
     if (!note) return;
-    if (!window.confirm("Are you sure you want to delete this note?")) return;
+    toast("Are you sure you want to delete this note?");
 
     setSaving(true);
     try {

@@ -16,7 +16,7 @@ const HomePage = () => {
       try {
         setLoading(true);
         const response = await apiClient.get("/notes");
-        console.log('Fetched notes:', response.data);
+        // console.log('Fetched notes:', response.data);
         
         setNotes(response.data);
         

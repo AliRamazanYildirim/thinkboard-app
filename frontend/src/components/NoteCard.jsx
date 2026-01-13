@@ -111,7 +111,7 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
               {note.tags.slice(0, 3).map((tag, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-orange-500/50 text-white rounded-full text-sm"
+                  className="px-3 py-1 bg-orange-400/75 text-white rounded-full text-sm"
                 >
                   #{tag}
                 </span>

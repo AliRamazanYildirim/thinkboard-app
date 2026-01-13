@@ -1,3 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: forest --default;
+  exclude: properties;
+}
+
+@source "../index.html";
+@source "./**/*.{js,ts,jsx,tsx}";

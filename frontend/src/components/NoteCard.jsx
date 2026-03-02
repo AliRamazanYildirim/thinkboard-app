@@ -42,13 +42,13 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
 
   return (
     <div
-      className="relative card bg-gradient-to-br from-green-900 to-black backdrop-blur-sm  border-slate-700 rounded-2xl shadow-xl p-6  hover:shadow-xl transition-all duration-100
+      className="relative card bg-linear-to-br from-green-900 to-black backdrop-blur-sm  border-slate-700 rounded-2xl shadow-xl p-6  hover:shadow-xl transition-all duration-100
     border-t-4 border-solid border-orange border-2
     hover:border-orange hover:border-opacity-80 hover:scale-105"
       style={{ borderTopColor: note.color || "#fb923c" }}
     >
       {/* Pin und Archive Buttons - Links oben */}
-      <div className="absolute top-[-1px] left-2 flex gap-1">
+      <div className="absolute -top-px left-2 flex gap-1">
         <button
           onClick={handlePin}
           className={`btn btn-xs btn-square btn-ghost ${
@@ -78,7 +78,7 @@ const NoteCard = ({note, onDelete, onPin, onArchive}) => {
       </div>
 
       {/* Bearbeitungs- und Löschbuttons - Rechts oben */}
-      <div className="absolute top-[-1px] right-2 flex gap-1">
+      <div className="absolute -top-px right-2 flex gap-1">
         <Link
           to={`/note/${note._id}`}
           className="btn btn-xs btn-square btn-ghost hover:btn-info"

@@ -5,6 +5,7 @@ import path from "path";
 
 // Importiere die Routen und die Datenbankverbindung
 import notesRoutes from "./routes/notesRoutes.js";
+import subscriptionWebhookRoutes from "./routes/subscriptionWebhookRoutes.js";
 import connectDB from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 
@@ -17,6 +18,11 @@ const distPath = path.join(__dirname, "../frontend/dist");
 // Da es sich um eine asynchrone Funktion handelt, verwende await
 const startServer = async () => {
   try {
+    if (!process.env.SUBSCRIPTION_WEBHOOK_SECRET) {
+      console.error("SUBSCRIPTION_WEBHOOK_SECRET ist nicht gesetzt. Server wird nicht gestartet.");
+      process.exit(1);
+    }
+
     await connectDB();
 
     // Middlewares
@@ -44,6 +50,7 @@ const startServer = async () => {
     app.use(rateLimiter); // Füge den Ratelimiter Middleware hinzu
 
     app.use("/api/notes", notesRoutes);
+    app.use("/api/subscription-webhook", subscriptionWebhookRoutes);
 
     if (process.env.NODE_ENV === "production") {
       app.use(express.static(distPath));

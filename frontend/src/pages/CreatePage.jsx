@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {ArrowLeftIcon} from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import apiClient from "../lib/axios";
+import { fetchSubscriptionStatus } from "../lib/subscriptionStatus";
+import SubscriptionRestrictedBanner from "../components/SubscriptionRestrictedBanner";
 
 
 const CreatePage = () => {
@@ -12,8 +14,19 @@ const CreatePage = () => {
   const [priority, setPriority] = useState("medium");
   const [color, setColor] = useState("#fb923c");
   const [loading, setLoading] = useState(false);
+  const [subscriptionStatus, setSubscriptionStatus] = useState({ status: "active", daysOverdue: 0 });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadSubscriptionStatus = async () => {
+      const result = await fetchSubscriptionStatus();
+      setSubscriptionStatus(result);
+    };
+    loadSubscriptionStatus();
+  }, []);
+
+  const isRestricted = subscriptionStatus.status === "restricted" || subscriptionStatus.status === "suspended";
 
   const colorPalette = [
     { name: "Hellgelb", value: "#fff9c4" },
@@ -57,7 +70,9 @@ const CreatePage = () => {
       setColor("#ffffff");
     } catch (error) {
       console.error("Error creating note:", error);
-      error.response && error.response.status === 429
+      error.response?.status === 403
+        ? toast.error(error.response.data.message, { duration: 5000, icon: "🔒" })
+        : error.response && error.response.status === 429
         ? toast.error("Too many requests! Please wait a moment.", {
         duration: 5000,
         icon: "🚫",
@@ -81,6 +96,12 @@ const CreatePage = () => {
             { /* Card header with title */}
             <div className="card-body">
               <h2 className="card-title">Create a New Note</h2>
+              {isRestricted && (
+                <SubscriptionRestrictedBanner
+                  status={subscriptionStatus.status}
+                  daysOverdue={subscriptionStatus.daysOverdue}
+                />
+              )}
               <form onSubmit={handleSubmit} className="space-y-4 relative pb-2" noValidate>
                 <div className="form-control">
                   <label className="label">
@@ -168,10 +189,10 @@ const CreatePage = () => {
                   </div>
                 </div>
                 <div className="flex justify-end">
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className={`btn btn-success rounded-full text-black ${loading ? "loading" : ""}`}
-                    disabled={loading}
+                    disabled={loading || isRestricted}
                   >
                     {loading ? "Creating..." : "Create Note"}
                   </button>
